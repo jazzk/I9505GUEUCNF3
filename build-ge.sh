@@ -1,8 +1,8 @@
 #!/bin/sh
 KERNEL_DIR=`readlink -f .`
 PARENT_DIR=`readlink -f ..`
-KERNEL_TYPE="stock_ge"
-KERNEL_ID="stock-ge-kk"
+KERNEL_TYPE="custom_ge"
+KERNEL_ID="custom-ge-kk"
 RAMFS_TMP="$PARENT_DIR/tmp/ramdisk"
 RAMFS_SOURCE="$PARENT_DIR/includes/$KERNEL_TYPE/ramdisk"
 ZIPFS_SOURCE="$PARENT_DIR/includes/$KERNEL_TYPE/zip"
@@ -22,7 +22,7 @@ find -name '*.ko' -exec rm -rf {} \;
 #generate kernel config
 export ARCH=arm
 export CROSS_COMPILE=/home/jazz/prebuilts/arm-eabi-4.7/bin/arm-eabi-
-make jf_defconfig VARIANT_DEFCONFIG=jf_tmo_defconfig SELINUX_DEFCONFIG=selinux_defconfig || exit 1
+make jazz_jf_defconfig VARIANT_DEFCONFIG=jf_eur_defconfig SELINUX_DEFCONFIG=selinux_defconfig || exit 1
 # make jf_defconfig VARIANT_DEFCONFIG=jf_tmo_defconfig || exit 1
 
 #build kernel
