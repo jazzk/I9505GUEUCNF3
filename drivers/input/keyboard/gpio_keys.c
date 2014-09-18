@@ -29,7 +29,7 @@
 #include <linux/of_platform.h>
 #include <linux/of_gpio.h>
 #include <linux/spinlock.h>
-#if CONFIG_SEC_DEBUG
+#ifdef CONFIG_SEC_DEBUG
 #include <mach/sec_debug.h>
 #endif
 
@@ -419,7 +419,7 @@ static void gpio_keys_gpio_report_event(struct gpio_button_data *bdata)
 	unsigned int type = button->type ?: EV_KEY;
 	int state = (gpio_get_value_cansleep(button->gpio) ? 1 : 0) ^ button->active_low;
 
-#if CONFIG_SEC_DEBUG
+#ifdef CONFIG_SEC_DEBUG
 	sec_debug_check_crash_key(button->code, state);
 #endif
 	if (type == EV_ABS) {
@@ -902,7 +902,9 @@ static int __devinit gpio_keys_probe(struct platform_device *pdev)
 	int ret;
 	struct device *sec_key;
 #endif
-
+#ifndef CONFIG_SEC_DEBUG
+	extern struct class *sec_class;
+#endif
 	if (!pdata) {
 		error = gpio_keys_get_devtree_pdata(dev, &alt_pdata);
 		if (error)

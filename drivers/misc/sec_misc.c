@@ -32,8 +32,9 @@
 #include <linux/blkdev.h>
 #include <mach/gpio.h>
 #include <linux/sec_param.h>
+#ifdef CONFIG_SEC_DEBUG
 #include <mach/sec_debug.h>
-
+#endif
 #define MOVINAND_CHECKSUM
 #define RORY_CONTROL
 
@@ -133,6 +134,7 @@ static DEVICE_ATTR(rory_control, S_IRUGO | S_IWUSR ,
 		rory_control_show, rory_control_store);
 #endif /*RORY_CONTROL*/
 
+#ifdef CONFIG_SEC_DEBUG
 static unsigned int convert_debug_level_str(const char *str)
 {
 	if (strncasecmp(str, "0xA0A0", 6) == 0)
@@ -191,7 +193,7 @@ static ssize_t debug_level_store(struct device *dev,
 
 static DEVICE_ATTR(debug_level, S_IRUGO | S_IWUSR ,
 		debug_level_show, debug_level_store);
-
+#endif
 #if defined(CONFIG_MACH_APEXQ) || defined(CONFIG_MACH_AEGIS2)
 static ssize_t slideCount_show
 	(struct device *dev, struct device_attribute *attr, char *buf)
@@ -224,7 +226,9 @@ static struct device_attribute *sec_misc_attrs[] = {
 	&dev_attr_emmc_checksum_done,
 	&dev_attr_emmc_checksum_pass,
 	&dev_attr_rory_control,
+#ifdef CONFIG_SEC_DEBUG
 	&dev_attr_debug_level,
+#endif
 #if defined(CONFIG_MACH_APEXQ) || defined(CONFIG_MACH_AEGIS2)
 	&dev_attr_slideCount,
 #endif
@@ -234,7 +238,9 @@ static int __init sec_misc_init(void)
 {
 	int ret = 0;
 	int i;
-
+#ifndef CONFIG_SEC_DEBUG
+	extern struct class *sec_class;
+#endif
 	ret = misc_register(&sec_misc_device);
 	if (ret < 0) {
 		printk(KERN_ERR "misc_register failed!\n");
