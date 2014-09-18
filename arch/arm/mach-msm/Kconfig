@@ -2830,3 +2830,9 @@ config SEC_FACTORY
 	help
 	  Enable Features only For FACTORY BINARY.
 endif
+
+config CPU_VOLTAGE_TABLE
+ 	bool "Enable CPU Voltage Table via sysfs for adjustements"
+ 	default n
+ 	help
+ 	  Krait User Votlage Control
