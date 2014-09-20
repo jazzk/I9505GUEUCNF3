@@ -106,6 +106,18 @@ int get_min_freq(void)
 {
 	return cpuinfo_min_freq;
 }
+#else
+static unsigned int cpuinfo_max_freq;
+static unsigned int cpuinfo_min_freq;
+int get_max_freq(void)
+{
+	return cpuinfo_max_freq;
+}
+
+int get_min_freq(void)
+{
+	return cpuinfo_min_freq;
+}
 #endif
 
 static int set_cpu_freq(struct cpufreq_policy *policy, unsigned int new_freq)
