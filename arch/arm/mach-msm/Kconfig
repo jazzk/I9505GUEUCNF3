@@ -2875,3 +2875,9 @@ config OC_ULTIMATE
 	default n
 	help
 	  Ultimate Krait overclocking up to 2.3 GHz
+	  
+config GPU_OVERCLOCK
+	bool "Enable GPU Overclocking option"
+	default n
+	help
+	  Kraint 600 ab GPU overclock up to 600 MHz
