@@ -33,6 +33,9 @@
 static char klog_buf[256];
 #endif
 
+static unsigned int enabled = 1;
+module_param(enabled, uint, S_IWUSR | S_IRUGO);
+
 /*
  * struct logger_log - represents a specific log, such as 'main' or 'radio'
  *
@@ -465,6 +468,9 @@ ssize_t logger_aio_write(struct kiocb *iocb, const struct iovec *iov,
 	struct logger_entry header;
 	struct timespec now;
 	ssize_t ret = 0;
+
+	if (!enabled)
+		return 0;
 
 	now = current_kernel_time();
 
